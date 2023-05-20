@@ -9,8 +9,8 @@ from youtube_search import YoutubeSearch
 import multiprocessing
 
 # import and load environment variables
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 def write_tracks(text_file: str, tracks: dict):
     # Writes the information of all tracks in the playlist to a text file. 
@@ -188,7 +188,7 @@ def enable_multicore(autoenable=False, maxcores=None, buffercores=1):
         return 1
 
 
-# re-organize the files
+# Re-organize the files in the folder setting them as 'title - artist.mp3'
 def reorganize_mp3_files(folder_name):
     folder_path = "C:/Users/david/Desktop/spotify-to-mp3-python-master/"+str(folder_name)
     # loop through all files in the directory
@@ -209,15 +209,15 @@ def reorganize_mp3_files(folder_name):
 # function to tell me the songs i need to download in another way because they differ in lenght for more than 1 minute:
 # def differ():
 
-id = os.getenv("CLIENT_ID")
-secret = os.getenv("CLIENT_SECRET")
-user = os.getenv("USER")
+# id = os.getenv("CLIENT_ID")
+# secret = os.getenv("CLIENT_SECRET")
+# user = os.getenv("USER")
 
 if __name__ == "__main__":
     # Parameters   
-    client_id = id
-    client_secret = secret
-    username = user
+    client_id = input('Client ID:')
+    client_secret = input('Client secret:')
+    username = input('Your username:')
     start = input("\nPlaylist URI (type 'help' to get instructions on how to find the URI): ")
     if start == 'help':
         print("\nGo to the playlist you want to download -> ... -> Share -> Hold Ctrl button -> Copy URI \n")
