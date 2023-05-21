@@ -80,7 +80,7 @@ def find_and_download_songs(reference_file: str):
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
-                    'preferredquality': '192',
+                    'preferredquality': '320',
                 }],
             }
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
