@@ -25,10 +25,6 @@ cd spotify-to-mp3-python/
 
 Go to the Spotify [dashboard](https://developer.spotify.com/dashboard/).  Log in. Once at the Dashboard, click the green button labeled "Create App". Just put "Testing", or whatever you want, for both "App name" and "App description". Make sure to check both agreement boxes and click "Create".
 
-You should see this:
-
-![Spotify App Screen](https://miro.medium.com/max/1400/1*8c7agz6nxmez9-bm2NFCxQ.jpeg)
-
 You will see the "Client ID" and "Show client secret" fields on the left: copy and save your Client ID and secret somewhere.
 You'll also need your spotify username. 
 Instructions to find the URI are directly in the program.
