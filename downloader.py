@@ -220,7 +220,7 @@ if __name__ == "__main__":
     username = input('Your username:')
     start = input("\nPlaylist URI (type 'help' to get instructions on how to find the URI): ")
     if start == 'help':
-        print("\nGo to the playlist you want to download -> ... -> Share -> Hold Ctrl button -> Copy URI \n")
+        print("\nGo to the playlist you want to download -> Click on the dots ... -> Share -> Hold Ctrl button -> Copy URI \n")
         playlist_uri = input("Right click on the mouse to paste here the URI: ")
         playlist_uri = playlist_uri.split(":")[2]
     else:
