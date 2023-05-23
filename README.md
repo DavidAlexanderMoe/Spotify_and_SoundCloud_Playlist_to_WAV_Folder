@@ -31,10 +31,10 @@ Instructions to find the URI are directly in the program.
 
 ### 4. Running
 
-Run in your terminal session, making sure you are in the same working directory of the python script:
+Run in your IDE of chioce or just run in your terminal session, making sure you are in the same working directory of the python script:
 
 ```bash
-python3 spotify_to_mp3.py
+python3 downloader.py
 ```
 
 If all goes well, you should see your playlist beginning to download in a folder with the same name.
