@@ -2,9 +2,7 @@
 
 The idea of this program came from the need to download playlist which were already created directly on spotify (which were large).
 Everybody uses some kind of websites or apps to download music or videos from youtube, but my problem was that i did not have any download-ready playlists on youtube!
-It was really boring and time consuming to recreate my spotify playlists on youtube (i needed to search each single song and add it to the new youtube playlist), so I thought i could use the Spotify API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API!
-
-Uses the Spotify API to get the metadata of the songs in a playlist given the playlist's URI and uses those information to download the same songs from Youtube using the Youtube API.
+It was really boring and time consuming to recreate my spotify playlists on youtube (i needed to search each single song and add it to the new youtube playlist), so I thought i could use the Spotify API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API.
 
 ## How To Use
 ### 1. Clone the respository
@@ -31,10 +29,10 @@ Instructions to find the URI are directly in the program.
 
 ### 4. Running
 
-Run in your terminal session, making sure you are in the same working directory of the python script:
+Run in your IDE of chioce or just run in your terminal session, making sure you are in the same working directory of the python script:
 
 ```bash
-python3 spotify_to_mp3.py
+python3 downloader.py
 ```
 
 If all goes well, you should see your playlist beginning to download in a folder with the same name.
