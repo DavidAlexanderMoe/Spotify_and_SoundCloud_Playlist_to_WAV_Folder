@@ -206,8 +206,6 @@ def reorganize_mp3_files(folder_name):
             os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
 
 
-# function to tell me the songs i need to download in another way because they differ in lenght for more than 1 minute:
-# def differ():
 
 # id = os.getenv("CLIENT_ID")
 # secret = os.getenv("CLIENT_SECRET")
