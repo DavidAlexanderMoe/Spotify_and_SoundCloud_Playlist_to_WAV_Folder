@@ -13,7 +13,7 @@ To clone this repoistory using Git, use
 git clone https://github.com/DavidAlexanderMoe/spotify_playlist_to_mp3_folder
 ```
 
-Alternatively, you can clone this repository, open a terminal session and navigate to this folder, using `cd`.
+Alternatively, you can clone this repository directly from github, then open a terminal session and navigate to this folder, using `cd`.
 
 ```bash
 cd spotify-to-mp3-python/
