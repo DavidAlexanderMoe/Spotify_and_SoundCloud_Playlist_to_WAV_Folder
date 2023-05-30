@@ -1,4 +1,4 @@
-# Download Spotify Playlist to local folder
+# Download Spotify Playlist to folder:
 
 The idea of this program came from the need to download playlist which were already created directly on spotify (which were large).
 Everybody uses some kind of websites or apps to download music or videos from youtube, but my problem was that i did not have any download-ready playlists on youtube!
