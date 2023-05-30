@@ -25,7 +25,7 @@ Go to the Spotify [dashboard](https://developer.spotify.com/dashboard/).  Log in
 
 You will see the "Client ID" and "Show client secret" fields on the left: copy and save your Client ID and secret somewhere.
 You'll also need your spotify username. 
-Instructions to find the URI are directly in the program.
+Other instructions come directly from the program.
 
 ### 4. Running
 
