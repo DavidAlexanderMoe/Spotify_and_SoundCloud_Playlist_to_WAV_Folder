@@ -37,4 +37,4 @@ Run in your IDE of chioce or just run in your terminal session, making sure you 
 python3 downloader.py
 ```
 
-If all goes well, you should see your playlist beginning to download in a folder with the same name.
+If everything goes well, you should see your playlist beginning to download in a folder with the same name.
