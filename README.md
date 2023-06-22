@@ -1,8 +1,8 @@
-# Download Spotify Playlist to local folder
+# Download Spotify Playlist to folder:
 
 The idea of this program came from the need to download playlist which were already created directly on spotify (which were large).
-Everybody uses some kind of websites or apps to download music or videos from youtube, but my problem was that i did not have any download-ready playlists on youtube!
-It was really boring and time consuming to recreate my spotify playlists on youtube (i needed to search each single song and add it to the new youtube playlist), so I thought i could use the Spotify API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API.
+Everybody uses some kind of websites or apps to download music or videos from youtube, but the problem was that I did not have any download-ready playlists on youtube!
+It is really boring and time consuming to recreate spotify playlists on youtube searching each song individually, so the solution was this code which uses the Spotify API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API.
 
 ## How To Use
 ### 1. Clone the respository
@@ -13,7 +13,7 @@ To clone this repoistory using Git, use
 git clone https://github.com/DavidAlexanderMoe/spotify_playlist_to_mp3_folder
 ```
 
-Alternatively, you can clone this repository, open a terminal session and navigate to this folder, using `cd`.
+Alternatively, you can clone this repository directly from github, then open a terminal session and navigate to this folder, using `cd`.
 
 ```bash
 cd spotify-to-mp3-python/
@@ -25,7 +25,7 @@ Go to the Spotify [dashboard](https://developer.spotify.com/dashboard/).  Log in
 
 You will see the "Client ID" and "Show client secret" fields on the left: copy and save your Client ID and secret somewhere.
 You'll also need your spotify username. 
-Instructions to find the URI are directly in the program.
+Other instructions come directly from the program.
 
 ### 4. Running
 
