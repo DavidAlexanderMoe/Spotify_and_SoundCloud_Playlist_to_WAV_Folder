@@ -1,6 +1,6 @@
 # Download Spotify Playlist to folder:
 
-This script downloads music into one of the best audio qualities: "**.wav**".
+This script downloads music into one of the best audio qualities: **.wav**.
 
 The idea of this program came from the need to download playlist which were already created directly on spotify (which were large).
 Everybody uses some kind of websites or apps to download music or videos from youtube, but the problem was that I did not have any download-ready playlists on youtube!
