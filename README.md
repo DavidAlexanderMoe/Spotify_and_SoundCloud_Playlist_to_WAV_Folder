@@ -1,6 +1,12 @@
 # Download Spotify and SoundCloud Playlists to a folder of .WAV files:
 
-This script downloads music into one of the best audio qualities: **.wav**.
+<div align="center">
+  
+### This script downloads music into .WAV - 1536 kbps.
+ 
+</div>
+
+![image](https://github.com/DavidAlexanderMoe/Spotify_and_SoundCloud_Playlist_to_WAV_Folder/assets/122370567/6c8e8dce-f7fd-4fe7-88ee-bc6544e19744)
 
 The idea of this program came from the need to download playlist which were already created directly on spotify or soundcloud (which were large).
 Everybody uses some kind of websites or apps to download music or videos from youtube, but the problem was that I did not have any download-ready playlists on youtube!
