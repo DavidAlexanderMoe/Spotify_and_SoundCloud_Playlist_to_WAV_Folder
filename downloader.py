@@ -6,11 +6,14 @@ import spotipy
 import spotipy.oauth2 as oauth2
 import yt_dlp
 from youtube_search import YoutubeSearch
+from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyClientCredentials
+from sclib import SoundcloudAPI
 import multiprocessing
 
-# import and load environment variables
-# from dotenv import load_dotenv
-# load_dotenv()
+# import environment variable dependencies
+from dotenv import load_dotenv
+load_dotenv()
 
 def write_tracks(text_file: str, tracks: dict):
     # Writes the information of all tracks in the playlist to a text file. 
@@ -41,7 +44,6 @@ def write_tracks(text_file: str, tracks: dict):
             else:
                 break
 
-
 def write_playlist(username: str, playlist_id: str):
     results = spotify.user_playlist(username, playlist_id, fields='tracks,next,name')
     playlist_name = results['name']
@@ -51,8 +53,25 @@ def write_playlist(username: str, playlist_id: str):
     write_tracks(text_file, tracks)
     return playlist_name
 
+# reference .txt file for soundcloud playlist
+def create_reference_file(playlist_url, reference_file):
+    api = SoundcloudAPI()
+    playlist = api.resolve(playlist_url)
 
-def find_and_download_songs(reference_file: str):
+    # Create a text file to write the track names
+    premiere_list = ["PREMIERE", "Premiere", "[PREMIERE]", "[Premiere]"]
+    with open(reference_file, 'w', encoding='utf-8') as file:
+        for track in playlist.tracks:
+            if any(prem in track.artist for prem in premiere_list):
+                artist_ls = track.artist.split()
+                # remove premiere from title to search on YouTube with no problems
+                del artist_ls[0]
+                filename = f'{" ".join(artist_ls)} - {track.title}'
+            else:
+                filename = f'{track.artist} - {track.title}'
+            file.write(filename + '\n')
+
+def find_and_download_songs_spotify(reference_file: str):
     TOTAL_ATTEMPTS = 10
     with open(reference_file, "r", encoding='utf-8') as file:
         for line in file:
@@ -85,6 +104,42 @@ def find_and_download_songs(reference_file: str):
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([best_url])
 
+def find_and_download_songs_soundcloud(reference_file):
+    TOTAL_ATTEMPTS = 10
+    with open(reference_file, "r", encoding='utf-8') as file:
+        for line in file:
+            temp = line.strip().split(" - ")
+            if len(temp) != 2:
+                print("Invalid format: ", line.strip())
+                continue
+            name, artist = temp[1], temp[0]
+            text_to_search = f"{artist} - {name}"
+            best_url = None
+            attempts_left = TOTAL_ATTEMPTS
+            while attempts_left > 0:
+                try:
+                    results_list = YoutubeSearch(text_to_search, max_results=1).to_dict()
+                    best_url = "https://www.youtube.com{}".format(results_list[0]['url_suffix'])
+                    break
+                except IndexError:
+                    attempts_left -= 1
+                    print("No valid URLs found for {}, trying again ({} attempts left).".format(
+                        text_to_search, attempts_left))
+            if best_url is None:
+                print("No valid URLs found for {}, skipping track.".format(text_to_search))
+                continue
+            # Run yt-dlp to fetch and download the link's audio
+            print("Initiating download for {}.".format(text_to_search))
+            ydl_opts = {
+                'format': 'bestaudio/best',
+                'postprocessors': [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'wav',
+                }],
+            }
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([best_url])
+                
 
 # Multiprocessed implementation of find_and_download_songs
 # This method is responsible for manging and distributing the multi-core workload
@@ -187,60 +242,86 @@ def enable_multicore(autoenable=False, maxcores=None, buffercores=1):
         return 1
 
 
-# Re-organize the files in the folder setting them as 'title - artist.mp3'
+# re-organize the files
 def reorganize_mp3_files(folder_name):
     folder_path = "C:/Users/david/Desktop/spotify-to-mp3-python-master/"+str(folder_name)
     # loop through all files in the directory
     for filename in os.listdir(folder_path):
         # check if the file is an mp3 file
-        if filename.endswith(".mp3"):
+        if filename.endswith(".wav"):
             if " - " in filename:
                 artist, title = filename.split(" - ")[0], filename.split(" - ")[1]
                 title = title[:-18]
-                new_filename = f"{title} - {artist}.mp3"
+                new_filename = f"{title} - {artist}.wav"
             else:
                 title = filename.split(" - ")[0][:-18]
-                new_filename = f"{title}.mp3"
+                new_filename = f"{title}.wav"
             # rename the file
             os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
 
 
-
-# id = os.getenv("CLIENT_ID")
-# secret = os.getenv("CLIENT_SECRET")
-# user = os.getenv("USER")
+# load environment variables
+id = os.getenv("CLIENT_ID")
+secret = os.getenv("CLIENT_SECRET")
+user = os.getenv("USER")
 
 if __name__ == "__main__":
-    # Parameters   
-    client_id = input('Client ID:')
-    client_secret = input('Client secret:')
-    username = input('Your username:')
-    start = input("\nPlaylist URI (type 'help' to get instructions on how to find the URI): ")
-    if start == 'help':
-        print("\nGo to the playlist you want to download -> Click on the dots ... -> Share -> Hold Ctrl button -> Copy URI \n")
-        playlist_uri = input("Right click on the mouse to paste here the URI: ")
-        playlist_uri = playlist_uri.split(":")[2]
-    else:
-        playlist_uri = start.split(":")[2]
-    print("\nType 'Y' and '0' at next steps to correctly download music.")
-    if playlist_uri.find("https://open.spotify.com/playlist/") != -1:
-        playlist_uri = playlist_uri.replace("https://open.spotify.com/playlist/", "")
-    multicore_support = enable_multicore(autoenable=False, maxcores=None, buffercores=1)
-    auth_manager = oauth2.SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-    spotify = spotipy.Spotify(auth_manager=auth_manager)
-    playlist_name = write_playlist(username, playlist_uri)
-    reference_file = "{}.txt".format(playlist_name)
-    # Create the playlist folder
-    if not os.path.exists(playlist_name):
-        os.makedirs(playlist_name)
-    os.rename(reference_file, playlist_name + "/" + reference_file)
-    os.chdir(playlist_name)
-    # Enable multicore support
-    if multicore_support > 1:
-        multicore_find_and_download_songs(reference_file, multicore_support)
-    else:
-        find_and_download_songs(reference_file)
-    # re-organize files
-    reorganize_mp3_files(playlist_name)
-    print("Operation complete.")
+    # INPUT FOR SPOTIFY AND SOUNDCLOUD
+    website = input("Do you want to download a Spotify of Soundcloud playlist? \nEnter 1 for spotify and 2 for soundcloud: ")
+    if int(website) == 1:
+        # Parameters   
+        client_id = id
+        client_secret = secret
+        username = user
+        start = input("\nPlaylist URI (type 'help' to get instructions on how to find the URI): ")
+        if start == 'help':
+            print("\nGo to the playlist you want to download -> ... -> Share -> Hold Ctrl button -> Copy URI \n")
+            playlist_uri = input("Right click on the mouse to paste here the URI: ")
+            playlist_uri = playlist_uri.split(":")[2]
+        else:
+            playlist_uri = start.split(":")[2]
+        if playlist_uri.find("https://open.spotify.com/playlist/") != -1:
+            playlist_uri = playlist_uri.replace("https://open.spotify.com/playlist/", "")
+        # print("\nType 'Y' and '0' at next steps to correctly download music.")
+        # multicore_support = enable_multicore(autoenable=False, maxcores=None, buffercores=1)
+        auth_manager = oauth2.SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+        spotify = spotipy.Spotify(auth_manager=auth_manager)
+        playlist_name = write_playlist(username, playlist_uri)
+        reference_file = "{}.txt".format(playlist_name)
+        # Create the playlist folder
+        if not os.path.exists(playlist_name):
+            os.makedirs(playlist_name)
+        os.rename(reference_file, playlist_name + "/" + reference_file)
+        os.chdir(playlist_name)
+        # Enable multicore support
+        # if multicore_support > 1:
+        #     multicore_find_and_download_songs(reference_file, multicore_support)
+        # else:
+        find_and_download_songs_spotify(reference_file)
+        # re-organize files
+        reorganize_mp3_files(playlist_name)
+        print("Operation complete.")
 
+    elif int(website) == 2:
+        playlist_url = input("Playlist url: ")
+        playlist_name = playlist_url.split("/")[-1]
+        reference_file = f'{playlist_name}.txt'
+
+        # Create the playlist folder
+        if not os.path.exists(playlist_name):
+            os.makedirs(playlist_name)
+
+        os.chdir(playlist_name)
+
+        # Create the reference file
+        create_reference_file(playlist_url, reference_file)
+
+        # Download songs
+        find_and_download_songs_soundcloud(reference_file)
+
+        # Reorganize files
+        reorganize_mp3_files(playlist_name)
+
+        print("Operation complete.")
+    else:
+        print("Stop and run the program again putting either 1 or 2 in the input.")        
