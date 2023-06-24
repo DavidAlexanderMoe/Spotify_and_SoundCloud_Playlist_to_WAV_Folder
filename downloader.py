@@ -11,9 +11,9 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from sclib import SoundcloudAPI
 import multiprocessing
 
-# import environment variable dependencies
-from dotenv import load_dotenv
-load_dotenv()
+# # import environment variable dependencies
+# from dotenv import load_dotenv
+# load_dotenv()
 
 def write_tracks(text_file: str, tracks: dict):
     # Writes the information of all tracks in the playlist to a text file. 
@@ -207,7 +207,7 @@ def multicore_handler(reference_list: list, segment_index: int):
             file_out.write(line)
 
     # Call the original find_and_download method
-    find_and_download_songs(reference_filename)    
+    find_and_download_songs_spotify(reference_filename)    
 
     # Clean up the extra list that was generated
     if(os.path.exists(reference_filename)):
@@ -260,19 +260,21 @@ def reorganize_mp3_files(folder_name):
             os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
 
 
-# load environment variables
-id = os.getenv("CLIENT_ID")
-secret = os.getenv("CLIENT_SECRET")
-user = os.getenv("USER")
+# # load environment variables
+# id = os.getenv("CLIENT_ID")
+# secret = os.getenv("CLIENT_SECRET")
+# user = os.getenv("USER")
 
 if __name__ == "__main__":
-    # INPUT FOR SPOTIFY AND SOUNDCLOUD
+    # input for spotify or soundcloud
     website = input("Do you want to download a Spotify of Soundcloud playlist? \nEnter 1 for spotify and 2 for soundcloud: ")
     if int(website) == 1:
         # Parameters   
-        client_id = id
-        client_secret = secret
-        username = user
+        client_id = input('Client id: ')
+        client_secret = input('Client secret: ')
+        username = input('Username:')
+
+        # inputs
         start = input("\nPlaylist URI (type 'help' to get instructions on how to find the URI): ")
         if start == 'help':
             print("\nGo to the playlist you want to download -> ... -> Share -> Hold Ctrl button -> Copy URI \n")
@@ -282,46 +284,48 @@ if __name__ == "__main__":
             playlist_uri = start.split(":")[2]
         if playlist_uri.find("https://open.spotify.com/playlist/") != -1:
             playlist_uri = playlist_uri.replace("https://open.spotify.com/playlist/", "")
-        # print("\nType 'Y' and '0' at next steps to correctly download music.")
-        # multicore_support = enable_multicore(autoenable=False, maxcores=None, buffercores=1)
+        
+        # define multicore
+        print("\nType 'Y' and '0' at next steps to correctly download music.")
+        multicore_support = enable_multicore(autoenable=False, maxcores=None, buffercores=1)
+
+        # spotify API
         auth_manager = oauth2.SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
         spotify = spotipy.Spotify(auth_manager=auth_manager)
         playlist_name = write_playlist(username, playlist_uri)
         reference_file = "{}.txt".format(playlist_name)
+
         # Create the playlist folder
         if not os.path.exists(playlist_name):
             os.makedirs(playlist_name)
         os.rename(reference_file, playlist_name + "/" + reference_file)
         os.chdir(playlist_name)
+
         # Enable multicore support
-        # if multicore_support > 1:
-        #     multicore_find_and_download_songs(reference_file, multicore_support)
-        # else:
-        find_and_download_songs_spotify(reference_file)
+        if multicore_support > 1:
+            multicore_find_and_download_songs(reference_file, multicore_support)
+        else:
+            find_and_download_songs_spotify(reference_file)
+
         # re-organize files
         reorganize_mp3_files(playlist_name)
+
         print("Operation complete.")
 
     elif int(website) == 2:
-        playlist_url = input("Playlist url: ")
+        playlist_url = input("\nPlaylist url: ")
         playlist_name = playlist_url.split("/")[-1]
         reference_file = f'{playlist_name}.txt'
-
         # Create the playlist folder
         if not os.path.exists(playlist_name):
             os.makedirs(playlist_name)
-
         os.chdir(playlist_name)
-
         # Create the reference file
         create_reference_file(playlist_url, reference_file)
-
         # Download songs
         find_and_download_songs_soundcloud(reference_file)
-
         # Reorganize files
         reorganize_mp3_files(playlist_name)
-
         print("Operation complete.")
     else:
         print("Stop and run the program again putting either 1 or 2 in the input.")        
