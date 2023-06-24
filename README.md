@@ -1,8 +1,18 @@
-# Download Spotify Playlist to folder:
+# Download Spotify and SoundCloud Playlists to a folder of .WAV files:
 
-The idea of this program came from the need to download playlist which were already created directly on spotify (which were large).
+<div align="center">
+  
+### This script downloads music into .WAV - 1536 kbps.
+ 
+</div>
+
+![image](https://github.com/DavidAlexanderMoe/Spotify_and_SoundCloud_Playlist_to_WAV_Folder/assets/122370567/6c8e8dce-f7fd-4fe7-88ee-bc6544e19744)
+
+The idea of this program came from the need to download playlist which were already created directly on spotify or soundcloud (which were large).
 Everybody uses some kind of websites or apps to download music or videos from youtube, but the problem was that I did not have any download-ready playlists on youtube!
-It is really boring and time consuming to recreate spotify playlists on youtube searching each song individually, so the solution was this code which uses the Spotify API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API.
+It is really boring and time consuming to recreate spotify playlists on youtube searching each song individually, so the solution was this code which uses the Spotify and SoundCloud API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API.
+
+To download SoundCloud playlists you just need to clone the repository and have the URL of the playlist, while for downloading Spotify playlists you need to follow these next steps.
 
 ## How To Use
 ### 1. Clone the respository
@@ -10,7 +20,7 @@ It is really boring and time consuming to recreate spotify playlists on youtube 
 To clone this repoistory using Git, use
 
 ```bash
-git clone https://github.com/DavidAlexanderMoe/spotify_playlist_to_mp3_folder
+git clone https://github.com/DavidAlexanderMoe/Spotify_and_SoundCloud_Playlist_to_WAV_Folder
 ```
 
 Alternatively, you can clone this repository directly from github, then open a terminal session and navigate to this folder, using `cd`.
@@ -28,11 +38,10 @@ You'll also need your spotify username.
 Other instructions come directly from the program.
 
 ### 4. Running
-
-Run in your IDE of chioce or just run in your terminal session, making sure you are in the same working directory of the python script:
+Run in your IDE of chioce or just run in your terminal session, making sure you are in the same working directory of the python script.
 
 ```bash
 python3 downloader.py
 ```
 
-If all goes well, you should see your playlist beginning to download in a folder with the same name.
+If everything goes well, you should see your playlist beginning to download in a folder with the same name.
