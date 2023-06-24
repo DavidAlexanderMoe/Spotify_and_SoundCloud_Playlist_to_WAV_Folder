@@ -12,7 +12,7 @@ It is really boring and time consuming to recreate spotify playlists on youtube 
 To clone this repoistory using Git, use
 
 ```bash
-git clone https://github.com/DavidAlexanderMoe/spotify_playlist_to_mp3_folder
+git clone https://github.com/DavidAlexanderMoe/Spotify_and_SoundCloud_Playlist_to_WAV_Folder
 ```
 
 Alternatively, you can clone this repository directly from github, then open a terminal session and navigate to this folder, using `cd`.
