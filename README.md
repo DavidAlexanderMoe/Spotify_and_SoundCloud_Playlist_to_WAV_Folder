@@ -2,9 +2,9 @@
 
 This script downloads music into one of the best audio qualities: **.wav**.
 
-The idea of this program came from the need to download playlist which were already created directly on spotify (which were large).
+The idea of this program came from the need to download playlist which were already created directly on spotify or soundcloud (which were large).
 Everybody uses some kind of websites or apps to download music or videos from youtube, but the problem was that I did not have any download-ready playlists on youtube!
-It is really boring and time consuming to recreate spotify playlists on youtube searching each song individually, so the solution was this code which uses the Spotify API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API.
+It is really boring and time consuming to recreate spotify playlists on youtube searching each song individually, so the solution was this code which uses the Spotify and SoundCloud API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API.
 
 ## How To Use
 ### 1. Clone the respository
