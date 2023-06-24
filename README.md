@@ -17,16 +17,10 @@ To download SoundCloud playlists you just need to clone the repository and have 
 ## How To Use
 ### 1. Clone the respository
 
-To clone this repoistory using Git, use
+To clone this repoistory using Git, use:
 
 ```bash
 git clone https://github.com/DavidAlexanderMoe/Spotify_and_SoundCloud_Playlist_to_WAV_Folder
-```
-
-Alternatively, you can clone this repository directly from github, then open a terminal session and navigate to this folder, using `cd`.
-
-```bash
-cd spotify-to-mp3-python/
 ```
 
 ### 2. Setting up Spotify
@@ -41,7 +35,7 @@ Other instructions come directly from the program.
 Run in your IDE of chioce or just run in your terminal session, making sure you are in the same working directory of the python script.
 
 ```bash
-python3 downloader.py
+python downloader.py
 ```
 
 If everything goes well, you should see your playlist beginning to download in a folder with the same name.
