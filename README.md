@@ -1,4 +1,4 @@
-# Download Spotify Playlist to folder:
+# Download Spotify and SoundCloud Playlists to a folder of .WAV files:
 
 This script downloads music into one of the best audio qualities: **.wav**.
 
