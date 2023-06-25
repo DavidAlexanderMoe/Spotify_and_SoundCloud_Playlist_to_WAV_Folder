@@ -243,8 +243,12 @@ def enable_multicore(autoenable=False, maxcores=None, buffercores=1):
 
 
 # re-organize the files
-def reorganize_mp3_files(folder_name):
-    folder_path = "C:/Users/david/Desktop/spotify-to-mp3-python-master/"+str(folder_name)
+def reorganize_mp3_files():
+    folder_path = os.getcwd()
+    # folder_path = folder_path + str(folder_name)
+    # C:\Users\david\Downloads\Spotify_and_SoundCloud_Playlist_to_WAV_Folder\downloader.py
+    # downloader.py
+    # test
     # loop through all files in the directory
     for filename in os.listdir(folder_path):
         # check if the file is an mp3 file
@@ -325,7 +329,7 @@ if __name__ == "__main__":
         # Download songs
         find_and_download_songs_soundcloud(reference_file)
         # Reorganize files
-        reorganize_mp3_files(playlist_name)
+        reorganize_mp3_files()
         print("Operation complete.")
     else:
         print("Stop and run the program again putting either 1 or 2 in the input.")        
