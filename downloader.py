@@ -272,7 +272,7 @@ if __name__ == "__main__":
         # Parameters   
         client_id = input('Client id: ')
         client_secret = input('Client secret: ')
-        username = input('Username:')
+        username = input('Username: ')
 
         # inputs
         start = input("\nPlaylist URI (type 'help' to get instructions on how to find the URI): ")
