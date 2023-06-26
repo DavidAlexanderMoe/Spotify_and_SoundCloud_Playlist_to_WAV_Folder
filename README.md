@@ -1,4 +1,4 @@
-# Download Spotify and SoundCloud Playlists to a folder of .WAV files:
+# Download Spotify and SoundCloud Playlists to a folder of WAV files:
 
 <div align="center">
   
