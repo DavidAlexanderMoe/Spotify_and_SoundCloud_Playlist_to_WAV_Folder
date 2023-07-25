@@ -1,6 +1,6 @@
-# Download Spotify and SoundCloud Playlists to a folder of .WAV files:
-
 <div align="center">
+
+# Download Spotify and SoundCloud Playlists to a folder of WAV files:
   
 ### This script downloads music into .WAV - 1536 kbps.
  
@@ -12,7 +12,7 @@ The idea of this program came from the need to download playlist which were alre
 Everybody uses some kind of websites or apps to download music or videos from youtube, but the problem was that I did not have any download-ready playlists on youtube!
 It is really boring and time consuming to recreate spotify playlists on youtube searching each song individually, so the solution was this code which uses the Spotify and SoundCloud API to get the metadata of all the songs in a playlist and use those informations to download the same songs from Youtube using the Youtube API.
 
-To download SoundCloud playlists you just need to clone the repository and have the URL of the playlist, while for downloading Spotify playlists you need to follow these next steps.
+**To download SoundCloud playlists you just need to clone the repository and have the URL of the playlist, while for downloading Spotify playlists you need to setup Spotify following these next steps.**
 
 ## How To Use
 ### 1. Clone the respository
