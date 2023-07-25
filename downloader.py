@@ -11,9 +11,9 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from sclib import SoundcloudAPI
 import multiprocessing
 
-# # import environment variable dependencies
-# from dotenv import load_dotenv
-# load_dotenv()
+# import environment variable dependencies
+from dotenv import load_dotenv
+load_dotenv()
 
 def write_tracks(text_file: str, tracks: dict):
     # Writes the information of all tracks in the playlist to a text file. 
@@ -44,6 +44,7 @@ def write_tracks(text_file: str, tracks: dict):
             else:
                 break
 
+
 def write_playlist(username: str, playlist_id: str):
     results = spotify.user_playlist(username, playlist_id, fields='tracks,next,name')
     playlist_name = results['name']
@@ -53,7 +54,6 @@ def write_playlist(username: str, playlist_id: str):
     write_tracks(text_file, tracks)
     return playlist_name
 
-# reference .txt file for soundcloud playlist
 def create_reference_file(playlist_url, reference_file):
     api = SoundcloudAPI()
     playlist = api.resolve(playlist_url)
@@ -70,6 +70,7 @@ def create_reference_file(playlist_url, reference_file):
             else:
                 filename = f'{track.artist} - {track.title}'
             file.write(filename + '\n')
+
 
 def find_and_download_songs_spotify(reference_file: str):
     TOTAL_ATTEMPTS = 10
@@ -243,12 +244,8 @@ def enable_multicore(autoenable=False, maxcores=None, buffercores=1):
 
 
 # re-organize the files
-def reorganize_mp3_files():
-    folder_path = os.getcwd()
-    # folder_path = folder_path + str(folder_name)
-    # C:\Users\david\Downloads\Spotify_and_SoundCloud_Playlist_to_WAV_Folder\downloader.py
-    # downloader.py
-    # test
+def reorganize_files(folder_name):
+    folder_path = "C:/Users/david/Desktop/spotify-to-mp3-python-master/"+str(folder_name)
     # loop through all files in the directory
     for filename in os.listdir(folder_path):
         # check if the file is an mp3 file
@@ -264,21 +261,19 @@ def reorganize_mp3_files():
             os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
 
 
-# # load environment variables
+# load environment variables
 # id = os.getenv("CLIENT_ID")
 # secret = os.getenv("CLIENT_SECRET")
 # user = os.getenv("USER")
 
 if __name__ == "__main__":
-    # input for spotify or soundcloud
+    # INPUT FOR SPOTIFY AND SOUNDCLOUD
     website = input("Do you want to download a Spotify of Soundcloud playlist? \nEnter 1 for spotify and 2 for soundcloud: ")
     if int(website) == 1:
         # Parameters   
-        client_id = input('Client id: ')
-        client_secret = input('Client secret: ')
-        username = input('Username: ')
-
-        # inputs
+        client_id = input("client id: ")
+        client_secret = input("client secret: ")
+        username = input("username: ")
         start = input("\nPlaylist URI (type 'help' to get instructions on how to find the URI): ")
         if start == 'help':
             print("\nGo to the playlist you want to download -> ... -> Share -> Hold Ctrl button -> Copy URI \n")
@@ -288,48 +283,43 @@ if __name__ == "__main__":
             playlist_uri = start.split(":")[2]
         if playlist_uri.find("https://open.spotify.com/playlist/") != -1:
             playlist_uri = playlist_uri.replace("https://open.spotify.com/playlist/", "")
-        
-        # define multicore
-        print("\nType 'Y' and '0' at next steps to correctly download music.")
-        multicore_support = enable_multicore(autoenable=False, maxcores=None, buffercores=1)
-
-        # spotify API
+        # print("\nType 'Y' and '0' at next steps to correctly download music.")
+        # multicore_support = enable_multicore(autoenable=False, maxcores=None, buffercores=1)
         auth_manager = oauth2.SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
         spotify = spotipy.Spotify(auth_manager=auth_manager)
         playlist_name = write_playlist(username, playlist_uri)
         reference_file = "{}.txt".format(playlist_name)
-
         # Create the playlist folder
         if not os.path.exists(playlist_name):
             os.makedirs(playlist_name)
         os.rename(reference_file, playlist_name + "/" + reference_file)
         os.chdir(playlist_name)
-
         # Enable multicore support
-        if multicore_support > 1:
-            multicore_find_and_download_songs(reference_file, multicore_support)
-        else:
-            find_and_download_songs_spotify(reference_file)
-
-        # re-organize files
-        reorganize_mp3_files(playlist_name)
-
+        # if multicore_support > 1:
+        #     multicore_find_and_download_songs(reference_file, multicore_support)
+        # else:
+        find_and_download_songs_spotify(reference_file)
         print("Operation complete.")
 
     elif int(website) == 2:
-        playlist_url = input("\nPlaylist url: ")
+        playlist_url = input("Playlist url: ")
         playlist_name = playlist_url.split("/")[-1]
         reference_file = f'{playlist_name}.txt'
+
         # Create the playlist folder
         if not os.path.exists(playlist_name):
             os.makedirs(playlist_name)
+
         os.chdir(playlist_name)
+
         # Create the reference file
         create_reference_file(playlist_url, reference_file)
+
         # Download songs
         find_and_download_songs_soundcloud(reference_file)
-        # Reorganize files
-        reorganize_mp3_files()
+
         print("Operation complete.")
     else:
         print("Stop and run the program again putting either 1 or 2 in the input.")        
+
+reorganize_files(playlist_name)
