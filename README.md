@@ -39,3 +39,5 @@ python downloader.py
 ```
 
 If everything goes well, you should see your playlist beginning to download in a folder with the same name.
+
+**Note that some songs, especially soundcloud files, can lead to forbidden access with a consequent non-successful download.**
