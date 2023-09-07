@@ -41,3 +41,4 @@ python downloader.py
 If everything goes well, you should see your playlist beginning to download in a folder with the same name.
 
 **Note that some songs, especially soundcloud files, can lead to forbidden access with a consequent non-successful download.**
+**Other songs could be difficult to find in WAV quality, so if that was the case just change che best audio setting in the ydl_opts from WAV to mp3**
