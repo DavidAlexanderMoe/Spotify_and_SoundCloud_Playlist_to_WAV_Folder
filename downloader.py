@@ -10,6 +10,7 @@ from spotipy.oauth2 import SpotifyOAuth
 from spotipy.oauth2 import SpotifyClientCredentials
 from sclib import SoundcloudAPI
 import multiprocessing
+from pydub import AudioSegment
 
 # import environment variable dependencies
 from dotenv import load_dotenv
@@ -99,7 +100,8 @@ def find_and_download_songs_spotify(reference_file: str):
                 'format': 'bestaudio/best',
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'wav',
+                    'preferredcodec': 'mp3',        # wav + tremove preferredquality
+                    'preferredquality': '320',
                 }],
             }
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -135,7 +137,8 @@ def find_and_download_songs_soundcloud(reference_file):
                 'format': 'bestaudio/best',
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'wav',
+                    'preferredcodec': 'mp3',        # wav + tremove preferredquality
+                    'preferredquality': '320',
                 }],
             }
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -249,14 +252,14 @@ def reorganize_files(folder_name):
     # loop through all files in the directory
     for filename in os.listdir(folder_path):
         # check if the file is an mp3 file
-        if filename.endswith(".wav"):
+        if filename.endswith(".mp3"):
             if " - " in filename:
                 artist, title = filename.split(" - ")[0], filename.split(" - ")[1]
                 title = title[:-18]
-                new_filename = f"{title} - {artist}.wav"
+                new_filename = f"{title} - {artist}.mp3"
             else:
                 title = filename.split(" - ")[0][:-18]
-                new_filename = f"{title}.wav"
+                new_filename = f"{title}.mp3"
             # rename the file
             os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
 
@@ -275,6 +278,7 @@ if __name__ == "__main__":
         client_secret = input("client secret: ")
         username = input("username: ")
         start = input("\nPlaylist URI (type 'help' to get instructions on how to find the URI): ")
+
         if start == 'help':
             print("\nGo to the playlist you want to download -> ... -> Share -> Hold Ctrl button -> Copy URI \n")
             playlist_uri = input("Right click on the mouse to paste here the URI: ")
@@ -318,8 +322,22 @@ if __name__ == "__main__":
         # Download songs
         find_and_download_songs_soundcloud(reference_file)
 
-        print("Operation complete.")
+        print("Mp3 Playlist Created.")
+        print("Proceeding with reorganizing the files and converting them to WAV quality.")
+
     else:
         print("Stop and run the program again putting either 1 or 2 in the input.")        
 
 reorganize_files(playlist_name)
+
+current_directory = os.getcwd()
+folder_path = os.path.join(current_directory, str(playlist_name))
+folder_path = folder_path.replace('\\', '/')
+for filename in os.listdir(folder_path):
+    if filename.endswith(".mp3"):
+        file_path = folder_path + '/' + filename
+        sound = AudioSegment.from_mp3(str(file_path))
+        sound.export(folder_path + '/' + filename[:-4] + ".wav", format="wav")
+        os.remove(str(file_path))
+
+print("Operation Complete!")
