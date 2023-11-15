@@ -248,7 +248,7 @@ def enable_multicore(autoenable=False, maxcores=None, buffercores=1):
 
 # re-organize the files
 def reorganize_files(folder_name):
-    folder_path = "C:/Users/david/Desktop/spotify-to-mp3-python-master/"+str(folder_name)
+    folder_path = os.getcwd()
     # loop through all files in the directory
     for filename in os.listdir(folder_path):
         # check if the file is an mp3 file
@@ -303,7 +303,8 @@ if __name__ == "__main__":
         #     multicore_find_and_download_songs(reference_file, multicore_support)
         # else:
         find_and_download_songs_spotify(reference_file)
-        print("Operation complete.")
+        print("Mp3 Playlist Created.")
+        print("Proceeding with reorganizing the files and converting them to WAV quality.")
 
     elif int(website) == 2:
         playlist_url = input("Playlist url: ")
@@ -330,9 +331,10 @@ if __name__ == "__main__":
 
 reorganize_files(playlist_name)
 
-current_directory = os.getcwd()
-folder_path = os.path.join(current_directory, str(playlist_name))
-folder_path = folder_path.replace('\\', '/')
+# current_directory = os.getcwd()
+# folder_path = os.path.join(current_directory, str(playlist_name))
+# folder_path = folder_path.replace('\\', '/')
+folder_path = os.getcwd()
 for filename in os.listdir(folder_path):
     if filename.endswith(".mp3"):
         file_path = folder_path + '/' + filename
