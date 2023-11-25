@@ -2,8 +2,8 @@
 
 # Download Spotify and SoundCloud Playlists to a folder of WAV files:
   
-### This script downloads music into .WAV - 1411 kbps.
  
+### This script downloads music into .WAV - 1411~1536 kbps.
 </div>
 
 ![image](https://github.com/DavidAlexanderMoe/Spotify_and_SoundCloud_Playlist_to_WAV_Folder/assets/122370567/6c8e8dce-f7fd-4fe7-88ee-bc6544e19744)
