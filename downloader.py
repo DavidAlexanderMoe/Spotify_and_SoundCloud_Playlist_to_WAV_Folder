@@ -2,7 +2,7 @@
 
 # Import dependencies
 import os
-import spotipy
+import spotipy2
 import spotipy.oauth2 as oauth2
 import yt_dlp
 from youtube_search import YoutubeSearch
