@@ -14,6 +14,8 @@ It is really boring and time consuming to recreate spotify playlists on youtube 
 
 **To download SoundCloud playlists you just need to clone the repository and have the URL of the playlist, while for downloading Spotify playlists you need to setup Spotify following these next steps.**
 
+Before running the code, make sure to **install FFMPEG** on your device.
+
 ## How To Use
 ### 1. Clone the respository
 
